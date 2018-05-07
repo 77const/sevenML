@@ -112,14 +112,18 @@ def classify(inX, dataSet, labels, k):
     return sortedClassCount[0][0]  # 返回出现次数最多的那一个label的值
 
 
-def saveResult(result):  # 保存训练的数据
+def saveResult(result):                 # 保存数据
+    # 创建记录输出结果的文件（w 和 wb 使用的时候有问题）
     with open('datasets/getting-started/digit-recognizer/output/Result_seven_knn.csv', 'w') as myFile:
-        myWriter = csv.writer(myFile)
-        for i in result:
-            tmp = []
-            tmp.append(i)
-            myWriter.writerow(tmp)
-
+        myWriter = csv.writer(myFile)            # 对文件执行写入
+        myWriter.writerow(["ImageId", "Label"])  # 设置表格的列名
+        index = 0                                # 创建索引值
+        for i in result:                         # 循环遍历预测的结果值
+            tmp = []                             # 创建空列表
+            index = index + 1                    # 索引值增加
+            tmp.append(int(index))               # 往列表中追加当前索引值
+            tmp.append(int(i))                   # 往列表中追加测试集的标签值
+            myWriter.writerow(tmp)               # 把数据写入到Result_sklearn_knn.csv
 
 def handwritingClassTest():
     start_time = time.time()  # 获取当前时间
@@ -147,4 +151,5 @@ def handwritingClassTest():
 
 
 if __name__=="__main__":
-    handwritingClassTest()
+    # handwritingClassTest()
+    print()
