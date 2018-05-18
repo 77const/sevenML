@@ -258,33 +258,34 @@ def modelTrain():  # 模型选择
 
     ridge = Ridge(alpha=15)
     #
-    # train_sizes, train_loss, test_loss = learning_curve(ridge, x_train, y_train, cv=10,
-    #                                                     scoring='neg_mean_squared_error',
-    #                                                     train_sizes=[0.1, 0.3, 0.5, 0.7, 0.9, 0.95, 1])
-    #
-    # # 训练误差均值
-    # train_loss_mean = -np.mean(train_loss, axis=1)
-    # # 测试误差均值
-    # test_loss_mean = -np.mean(test_loss, axis=1)
-    #
-    # # 绘制误差曲线
-    # plt.plot(train_sizes / len(x_train), train_loss_mean, 'o-', color='r', label='Training')
-    # plt.plot(train_sizes / len(x_train), test_loss_mean, 'o-', color='g', label='Cross-Validation')
-    #
-    # plt.xlabel('Training data size')
-    # plt.ylabel('Loss')
-    # plt.legend(loc='best')
-    # plt.show()
+    train_sizes, train_loss, test_loss = learning_curve(ridge, x_train, y_train, cv=10,
+                                                        scoring='neg_mean_squared_error',
+                                                        train_sizes=[0.1, 0.3, 0.5, 0.7, 0.9, 0.95, 1])
 
-    mode_br = BaggingRegressor(base_estimator=ridge, n_estimators=25)
-    mode_br.fit(x_train, y_train)
-    # y_test = np.expm1(mode_br.predict(x_test))
-    y_test = mode_br.predict(x_test)
-    # 提交结果
-    submission_df = pd.DataFrame(data={'Id': x_test.index, 'SalePrice': y_test})
-    print(submission_df.head(10))
-    submission_df.to_csv('sample_submission.csv', columns=['Id', 'SalePrice'], index=False)
+    # 训练误差均值
+    train_loss_mean = -np.mean(train_loss, axis=1)
+    # 测试误差均值
+    test_loss_mean = -np.mean(test_loss, axis=1)
+
+    # 绘制误差曲线
+    plt.plot(train_sizes / len(x_train), train_loss_mean, 'o-', color='r', label='Training')
+    plt.plot(train_sizes / len(x_train), test_loss_mean, 'o-', color='g', label='Cross-Validation')
+
+    plt.xlabel('Training data size')
+    plt.ylabel('Loss')
+    plt.legend(loc='best')
+    plt.show()
+
+    # mode_br = BaggingRegressor(base_estimator=ridge, n_estimators=25)
+    # mode_br.fit(x_train, y_train)
+    # # y_test = np.expm1(mode_br.predict(x_test))
+    # y_test = mode_br.predict(x_test)
+    # # 提交结果
+    # submission_df = pd.DataFrame(data={'Id': x_test.index, 'SalePrice': y_test})
+    # print(submission_df.head(10))
+    # submission_df.to_csv('sample_submission.csv', columns=['Id', 'SalePrice'], index=False)
 
 
 if __name__ == "__main__":
     modelTrain()
+    
